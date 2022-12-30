@@ -1,21 +1,20 @@
+
 import bluetooth
 
-print("Escaneando dispositivos bluetooth \n")
+# Create a list to store the detected devices
+devices = []
 
-dispositivos = bluetooth.discover_devices()
+# Scan for devices
+print("Escaneando dispositivos cercanos.. \n")
+nearby_devices = bluetooth.discover_devices()
+print(f'Encontrados {len(nearby_devices)} dispositivos \n') 
 
-numero_de_dispositivos = len(dispositivos)
-print("Se han encontrado un total de: ", numero_de_dispositivos)
-for addr, name, device_class in dispositivos:
 
-        print("\n")
+local_addr = bluetooth.read_local_bdaddr()
+print("La dirección Bluetooth de este equipo es: ", local_addr)
 
-        print("Device:")
-
-        print("Device Name: %s" % (name))
-
-        print("Device MAC Address: %s" % (addr))
-
-        print("Device Class: %s" % (device_class))
-
-        print("\n")
+# Loop through the detected devices and print their name and address
+for addr in nearby_devices:
+    name = bluetooth.lookup_name(addr)
+    devices.append((name, addr))
+    print("{}: {}".format(name, addr))
